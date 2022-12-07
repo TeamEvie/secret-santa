@@ -25,7 +25,11 @@ export class Start extends Command {
 		const presentTime = interaction.options.getString('present-time', true);
 
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-			new UserSelectMenuBuilder().setCustomId(`start-v1:${presentTime}`).setPlaceholder('Nothing selected').setMaxValues(25).setMinValues(3)
+			new UserSelectMenuBuilder()
+				.setCustomId(`start-v1:${presentTime}:${interaction.user.id}`)
+				.setPlaceholder('Nothing selected')
+				.setMaxValues(25)
+				.setMinValues(3)
 		);
 
 		return void (await interaction.reply({
