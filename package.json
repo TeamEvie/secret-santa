@@ -2,7 +2,7 @@
 	"name": "secret-santa",
 	"version": "1.0.0",
 	"main": "dist/index.js",
-	"author": "@sapphire",
+	"author": "@evie",
 	"license": "UNLICENSE",
 	"dependencies": {
 		"@prisma/client": "^4.7.1",
@@ -30,7 +30,7 @@
 		"typescript": "^4.8.4"
 	},
 	"scripts": {
-		"build": "tsup",
+		"build": "prisma generate && tsup",
 		"watch": "tsup --watch",
 		"start": "node dist/index.js",
 		"dev": "tsup --watch --onSuccess \"node ./dist/index.js\"",
