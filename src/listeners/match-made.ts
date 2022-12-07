@@ -1,5 +1,5 @@
 import { Listener } from '@sapphire/framework';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, MessageActionRowComponentBuilder } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, MessageActionRowComponentBuilder, time } from 'discord.js';
 import { SantaEvents } from '../lib/constants';
 import { MatchEvent, serializeMatchers } from '../lib/types';
 
@@ -39,7 +39,11 @@ export class MatchListener extends Listener {
 			const embed = new EmbedBuilder();
 
 			embed.setTitle('Secret Santa');
-			embed.setDescription(`Ho ho ho! You are the secret santa for ${matcher.givingTo}! You will be gifting them a gift!`);
+			embed.setDescription(
+				`Ho ho ho! ${match.creator} has created a Secret Santa event! You are the Secret Santa for ${
+					matcher.givingTo
+				}! Present time is in ${time(match.presentTime, 'R')}!`
+			);
 			embed.setColor(Colors.Red);
 			embed.setFooter({
 				text: `This is an automated message. You can stop receiving Secret Santa alerts from ${match.guild.name} by clicking the 'Ignore' button below.`
