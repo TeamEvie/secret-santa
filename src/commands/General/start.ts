@@ -30,8 +30,7 @@ export class Start extends Command {
 
 		return void (await interaction.reply({
 			content: 'Choose 3-25 people to be included in your Secret Santa.',
-			components: [row],
-			ephemeral: true
+			components: [row]
 		}));
 	}
 

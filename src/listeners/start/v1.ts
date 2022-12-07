@@ -1,5 +1,5 @@
 import { Listener } from '@sapphire/framework';
-import { Events, Interaction, SnowflakeUtil, User, UserSelectMenuInteraction } from 'discord.js';
+import { Colors, EmbedBuilder, Events, Interaction, SnowflakeUtil, time, User, UserSelectMenuInteraction } from 'discord.js';
 import { SantaEvents } from '../../lib/constants';
 import type { MatchEvent } from '../../lib/types';
 import { hitLimit } from '../../lib/utils';
@@ -32,7 +32,16 @@ export class StartV1 extends Listener {
 		const payload: MatchEvent = { matchers: links, client: this.container.client, guild, presentTime, channel, creator: interaction.user };
 		this.container.client.emit(SantaEvents.Match, payload);
 
-		return void (await interaction.editReply({ content: 'Done!' }));
+		const embed = new EmbedBuilder()
+			.setTitle('Secret Santa')
+			.setDescription(
+				`Ho ho ho! ${interaction.user} has created a Secret Santa event with ${links
+					.map((link) => link.user)
+					.join()}! Present time is in ${time(presentTime, 'R')}!`
+			)
+			.setColor(Colors.Red);
+
+		return void (await interaction.editReply({ embeds: [embed] }));
 	}
 
 	public constructor(context: Listener.Context, options: Listener.Options) {
@@ -45,12 +54,15 @@ export class StartV1 extends Listener {
 	public async run(interaction: Interaction) {
 		if (!interaction.isUserSelectMenu() || !interaction.customId.startsWith('start-v1:')) return;
 
-		await interaction.deferReply({ ephemeral: true });
+		if (interaction.user.id !== interaction.customId.split(':')[2])
+			return void (await interaction.reply({ content: 'This select menu is not for you!', ephemeral: true }));
+
+		await interaction.deferReply();
 
 		if (await hitLimit(interaction.user)) return;
 
 		const presentTime = new Date(SnowflakeUtil.timestampFrom(interaction.customId.split(':')[1]));
 
-		this.entryPoint(interaction, presentTime);
+		return void this.entryPoint(interaction, presentTime);
 	}
 }
