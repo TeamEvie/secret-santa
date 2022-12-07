@@ -54,7 +54,7 @@ export class Start extends Command {
 			options: [
 				{
 					name: 'present-time',
-					description: 'The time you want to give your presents.',
+					description: 'Time users will have their Secret Santa revealed to each other (can be set to an exact date)',
 					type: ApplicationCommandOptionType.String,
 					required: true,
 					autocomplete: true
