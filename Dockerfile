@@ -37,7 +37,7 @@ ENV NODE_ENV="development"
 
 USER node
 
-CMD [ "npm", "run", "docker:watch"]
+CMD [ "yarn", "run", "docker:watch"]
 
 # ================ #
 #   Builder Stage  #
@@ -69,4 +69,4 @@ RUN chown node:node /opt/app/
 
 USER node
 
-CMD [ "npm", "run", "start"]
+CMD [ "yarn", "run", "start:with:push:db"]

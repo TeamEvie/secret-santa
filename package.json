@@ -34,6 +34,7 @@
 		"push:db": "prisma db push",
 		"watch": "tsup --watch",
 		"start": "node dist/index.js",
+		"start:with:push:db": "npm run push:db && npm run start",
 		"dev": "tsup --watch --onSuccess \"node ./dist/index.js\"",
 		"format": "prettier --write \"src/**/*.ts\""
 	},
