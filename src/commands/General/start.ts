@@ -8,9 +8,18 @@ import {
 	UserSelectMenuBuilder
 } from 'discord.js';
 import { TimeDB } from '../../lib/constants';
+import { hitLimit } from '../../lib/utils';
 
 export class Start extends Command {
 	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
+		if (await hitLimit(interaction.user)) {
+			return interaction.reply({
+				content: `You have reached the limit of 2 Secret Santa events per user. You can only
+				create a new event after your current events have ended.`,
+				ephemeral: true
+			});
+		}
+
 		const presentTime = interaction.options.getString('present-time', true);
 
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(

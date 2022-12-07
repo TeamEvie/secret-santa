@@ -2,6 +2,7 @@ import { Listener } from '@sapphire/framework';
 import { Events, Interaction, SnowflakeUtil, User, UserSelectMenuInteraction } from 'discord.js';
 import { SantaEvents } from '../../lib/constants';
 import type { MatchEvent } from '../../lib/types';
+import { hitLimit } from '../../lib/utils';
 
 export class StartV1 extends Listener {
 	private async entryPoint(interaction: UserSelectMenuInteraction, presentTime: Date) {
@@ -45,6 +46,8 @@ export class StartV1 extends Listener {
 		if (!interaction.isUserSelectMenu() || !interaction.customId.startsWith('start-v1:')) return;
 
 		await interaction.deferReply({ ephemeral: true });
+
+		if (await hitLimit(interaction.user)) return;
 
 		const presentTime = new Date(SnowflakeUtil.timestampFrom(interaction.customId.split(':')[1]));
 
