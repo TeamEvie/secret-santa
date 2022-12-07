@@ -20,6 +20,8 @@ export class Start extends Command {
 			});
 		}
 
+		if (!interaction.guild) return void interaction.reply({ content: 'This command can only be used in a guild!', ephemeral: true });
+
 		const presentTime = interaction.options.getString('present-time', true);
 
 		const row = new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
