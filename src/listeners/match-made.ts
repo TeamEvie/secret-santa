@@ -1,5 +1,5 @@
 import { Listener } from '@sapphire/framework';
-import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, MessageActionRowComponentBuilder, time } from 'discord.js';
+import { ActionRowBuilder, ButtonBuilder, ButtonStyle, Colors, EmbedBuilder, MessageActionRowComponentBuilder, time, User } from 'discord.js';
 import { SantaEvents } from '../lib/constants';
 import { MatchEvent, serializeMatchers } from '../lib/types';
 
@@ -49,14 +49,30 @@ export class MatchListener extends Listener {
 				text: `This is an automated message. You can stop receiving Secret Santa alerts from ${match.guild.name} by clicking the 'Ignore' button below.`
 			});
 
-			await matcher.user.send({
-				embeds: [embed],
-				components: [
-					new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
-						new ButtonBuilder().setCustomId(`ignore:${match.guild.id}`).setLabel('Ignore').setStyle(ButtonStyle.Danger)
-					)
-				]
-			});
+			const failedDms: User[] = [];
+
+			try {
+				await matcher.user.send({
+					embeds: [embed],
+					components: [
+						new ActionRowBuilder<MessageActionRowComponentBuilder>().addComponents(
+							new ButtonBuilder().setCustomId(`ignore:${match.guild.id}`).setLabel('Ignore').setStyle(ButtonStyle.Danger)
+						)
+					]
+				});
+			} catch {
+				failedDms.push(matcher.user);
+			}
+
+			if (failedDms.length) {
+				const embed = new EmbedBuilder();
+
+				embed.setTitle('Secret Santa');
+				embed.setDescription(`I was unable to send a DM to ${failedDms.map((user) => user.toString()).join(', ')}.`);
+				embed.setColor(Colors.Red);
+
+				await match.channel.send({ embeds: [embed] }).catch(() => null);
+			}
 		}
 	}
 }
