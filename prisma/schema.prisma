@@ -1,0 +1,40 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model SecretSantaEvent {
+  id        Int      @id @default(autoincrement())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  guild     Guild    @relation(fields: [guildId], references: [id])
+  guildId   String
+  channelId String
+
+  matchers             Json[]
+  presentTime          DateTime
+  sentPresentTimeAlert Boolean  @default(false)
+  creator              String
+}
+
+model Guild {
+  id               String             @id
+  memberSettings   MemberSettings[]
+  SecretSantaEvent SecretSantaEvent[]
+}
+
+model MemberSettings {
+  id          String
+  blacklisted Boolean
+  Guild       Guild   @relation(fields: [guildId], references: [id])
+  guildId     String
+
+  @@id([id, guildId])
+}

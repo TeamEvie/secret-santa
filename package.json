@@ -1,0 +1,40 @@
+{
+	"name": "secret-santa",
+	"version": "1.0.0",
+	"main": "dist/index.js",
+	"author": "@sapphire",
+	"license": "UNLICENSE",
+	"dependencies": {
+		"@prisma/client": "^4.7.1",
+		"@sapphire/decorators": "^5.0.0",
+		"@sapphire/framework": "^3.2.0-pr-512.244de39.0",
+		"@sapphire/plugin-logger": "^3.0.1",
+		"@sapphire/plugin-subcommands": "^3.2.2",
+		"@sapphire/utilities": "^3.10.1",
+		"discord-api-types": "^0.37.20",
+		"discord.js": "^14.7.1",
+		"dotenv-cra": "^3.0.2",
+		"reflect-metadata": "^0.1.13",
+		"tslib": "^2.4.1",
+		"zod": "^3.19.1"
+	},
+	"devDependencies": {
+		"@sapphire/prettier-config": "^1.4.4",
+		"@sapphire/ts-config": "^3.3.4",
+		"@types/node": "^18.8.3",
+		"@types/ws": "^8.5.3",
+		"npm-run-all": "^4.1.5",
+		"prettier": "^2.7.1",
+		"prisma": "^4.7.1",
+		"tsup": "^6.2.3",
+		"typescript": "^4.8.4"
+	},
+	"scripts": {
+		"build": "tsup",
+		"watch": "tsup --watch",
+		"start": "node dist/index.js",
+		"dev": "tsup --watch --onSuccess \"node ./dist/index.js\"",
+		"format": "prettier --write \"src/**/*.ts\""
+	},
+	"prettier": "@sapphire/prettier-config"
+}
