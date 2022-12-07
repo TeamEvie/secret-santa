@@ -3,7 +3,7 @@
 	"version": "1.0.0",
 	"main": "dist/index.js",
 	"author": "@evie",
-	"license": "UNLICENSE",
+	"license": "Apache-2.0",
 	"dependencies": {
 		"@prisma/client": "^4.7.1",
 		"@sapphire/decorators": "^5.0.0",
