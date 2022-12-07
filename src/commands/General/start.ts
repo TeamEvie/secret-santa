@@ -13,7 +13,7 @@ import { hitLimit } from '../../lib/utils';
 export class Start extends Command {
 	public override async chatInputRun(interaction: ChatInputCommandInteraction) {
 		if (await hitLimit(interaction.user)) {
-			return interaction.reply({
+			return void interaction.reply({
 				content: `You have reached the limit of 2 Secret Santa events per user. You can only
 				create a new event after your current events have ended.`,
 				ephemeral: true
@@ -26,7 +26,11 @@ export class Start extends Command {
 			new UserSelectMenuBuilder().setCustomId(`start-v1:${presentTime}`).setPlaceholder('Nothing selected').setMaxValues(25).setMinValues(3)
 		);
 
-		await interaction.reply({ content: 'Choose 3-25 people to be included in your Secret Santa.', components: [row], ephemeral: true });
+		return void (await interaction.reply({
+			content: 'Choose 3-25 people to be included in your Secret Santa.',
+			components: [row],
+			ephemeral: true
+		}));
 	}
 
 	public override async autocompleteRun(interaction: AutocompleteInteraction) {
