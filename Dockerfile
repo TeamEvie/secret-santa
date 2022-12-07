@@ -50,9 +50,6 @@ RUN npm install
 
 COPY . /opt/app
 
-ENV DATABASE_URL=${DATABASE_URL}
-
-RUN npm run push:db
 RUN npm run build
 
 # ==================== #
