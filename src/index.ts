@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client';
-import { LogLevel, SapphireClient } from '@sapphire/framework';
+import { ApplicationCommandRegistries, LogLevel, RegisterBehavior, SapphireClient } from '@sapphire/framework';
 import { IntentsBitField } from 'discord.js';
 import './lib/setup';
 
@@ -13,6 +13,8 @@ const client = new SapphireClient({
 	loadMessageCommandListeners: true,
 	defaultPrefix: ''
 });
+
+ApplicationCommandRegistries.setDefaultBehaviorWhenNotIdentical(RegisterBehavior.Overwrite);
 
 client.prisma = new PrismaClient();
 
